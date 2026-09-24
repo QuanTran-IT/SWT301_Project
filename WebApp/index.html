@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Time Checker</title>
+    <link rel="stylesheet" href="new_style.css">
+</head>
+
+<body>
+    <div class="window">
+        <div class="window-header">
+            <span class="window-icon">📅</span>
+            <span class="window-title">Form1</span>
+            <div class="window-controls">
+                <button class="window-close">✕</button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="logo-container" style="text-align: center; border-bottom: none;">
+                <img src="logo.png" alt="FPT University" style="max-height: 80px; width: auto;">
+            </div>
+
+            <h1 class="main-title">Date Time Checker</h1>
+
+            <div class="form-container">
+                <div class="form-group">
+                    <label for="day">Day</label>
+                    <input type="text" id="day" name="day">
+                </div>
+                <div class="form-group">
+                    <label for="month">Month</label>
+                    <input type="text" id="month" name="month">
+                </div>
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input type="text" id="year" name="year">
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button id="btnClear" class="btn">Clear</button>
+                <button id="btnCheck" class="btn">Check</button>
+            </div>
+
+            <div id="message" class="message"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
