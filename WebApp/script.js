@@ -19,6 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
         dayInput.focus();
     });
 
+    const closeBtn = document.querySelector('.window-close');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            const confirmed = window.confirm('Are you sure you want to exit?');
+            if (confirmed) {
+                const win = document.querySelector('.window');
+                if (win) win.style.display = 'none';
+            }
+        });
+    }
+
     btnCheck.addEventListener('click', () => {
         const dayStr = dayInput.value.trim();
         const monthStr = monthInput.value.trim();
@@ -26,15 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         messageDiv.style.color = '#d00'; // Default error color
 
-        // Check empty fields
-        if (!dayStr || !monthStr || !yearStr) {
-            messageDiv.textContent = 'Please fill in all fields.';
+        // 1. Numeric format validation
+        if (!/^\d+$/.test(dayStr)) {
+            messageDiv.textContent = 'Input data for Day is incorrect format!';
             return;
         }
 
-        // Check if numeric
-        if (!/^\d+$/.test(dayStr) || !/^\d+$/.test(monthStr) || !/^\d+$/.test(yearStr)) {
-            messageDiv.textContent = 'Input data for Day, Month, Year must be numbers.';
+        if (!/^\d+$/.test(monthStr)) {
+            messageDiv.textContent = 'Input data for Month is incorrect format!';
+            return;
+        }
+
+        if (!/^\d+$/.test(yearStr)) {
+            messageDiv.textContent = 'Input data for Year is incorrect format!';
             return;
         }
 
@@ -42,30 +57,32 @@ document.addEventListener('DOMContentLoaded', () => {
         const month = parseInt(monthStr, 10);
         const year = parseInt(yearStr, 10);
 
-        // Validate year range (typical for these assignments)
-        if (year < MIN_YEAR || year > MAX_YEAR) {
-            messageDiv.textContent = `Input data for Year is out of range [${MIN_YEAR}...${MAX_YEAR}]`;
+        // 2. Range validation
+        if (day < 1 || day > 31) {
+            messageDiv.textContent = 'Input data for Day is out of range!';
             return;
         }
 
-        // Validate month range
         if (month < 1 || month > 12) {
-            messageDiv.textContent = 'Input data for Month is out of range [1...12]';
+            messageDiv.textContent = 'Input data for Month is out of range!';
             return;
         }
 
-        // Get max days in month
-        const maxDays = getDaysInMonth(month, year);
+        if (year < MIN_YEAR || year > MAX_YEAR) {
+            messageDiv.textContent = 'Input data for Year is out of range!';
+            return;
+        }
 
-        // Validate day range
-        if (day < 1 || day > maxDays) {
-            messageDiv.textContent = `Input data for Day is out of range [1...${maxDays}]`;
+        // 3. Date validity check
+        const maxDays = getDaysInMonth(month, year);
+        if (day > maxDays) {
+            messageDiv.textContent = `${day}/${month}/${year} is NOT correct date time!`;
             return;
         }
 
         // Valid date
         messageDiv.style.color = 'green';
-        messageDiv.textContent = `${dayStr}/${monthStr}/${yearStr} is a valid date!`;
+        messageDiv.textContent = `${day}/${month}/${year} is correct date time!`;
     });
 
     function isLeapYear(year) {
