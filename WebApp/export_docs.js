@@ -287,26 +287,26 @@ async function generateDocx() {
         createHeading2("1. Chuẩn bị lần đầu trên máy tính"),
         createBullet("Đảm bảo máy đã cài đặt Node.js LTS (https://nodejs.org). Kiểm tra bằng lệnh: node -v."),
         createBullet("Đăng nhập tài khoản trên https://percy.io (Sign in with GitHub) -> Tạo Project mới tên 'DateTimeChecker' -> Vào Project Settings copy mã 'Project Token' lưu lại."),
-        createBullet("Mở Terminal tại thư mục WebApp và cài đặt các thư viện:"),
-        createCodeBlock("cd d:\\SWT301_Project\\WebApp\ncmd /c npm install\ncmd /c npx playwright install"),
+        createBullet("Mở Command Prompt (cmd) tại thư mục WebApp và cài đặt các thư viện:"),
+        createCodeBlock("cd d:\\SWT301_Project\\WebApp\nnpm install\nnpx playwright install"),
 
         createHeading2("2. Quy trình chạy kiểm thử hằng ngày (Dùng lại nhiều lần)"),
         createParagraph("Quy trình gồm 4 bước đơn giản:"),
-        createBullet("Mở Terminal 1 tại WebApp và gõ lệnh chạy web cục bộ (giữ cửa sổ này không tắt):", "Bước 2.1 (Bật Server 3000):"),
-        createCodeBlock("cmd /c npx serve -l 3000"),
-        createBullet("Mở Terminal 2 tại WebApp và nạp mã Token dự án:", "Bước 2.2 (Nạp Token):"),
-        createCodeBlock("PowerShell:  $env:PERCY_TOKEN = \"dan_token_cua_ban_vao_day\"\nCMD:         set PERCY_TOKEN=dan_token_cua_ban_vao_day"),
-        createBullet("Tại Terminal 2, chạy lệnh kết hợp Percy và Playwright:", "Bước 2.3 (Chạy Visual Test):"),
-        createCodeBlock("cmd /c npx percy exec -- npx playwright test tests/visual.spec.js"),
+        createBullet("Mở cmd 1 tại WebApp và gõ lệnh chạy web cục bộ (giữ cửa sổ này không tắt):", "Bước 2.1 (Bật Server 3000):"),
+        createCodeBlock("npx serve -l 3000"),
+        createBullet("Mở cmd 2 tại WebApp và nạp mã Token dự án:", "Bước 2.2 (Nạp Token):"),
+        createCodeBlock("set PERCY_TOKEN=dan_token_cua_ban_vao_day"),
+        createBullet("Tại cmd 2, chạy lệnh kết hợp Percy và Playwright:", "Bước 2.3 (Chạy Visual Test):"),
+        createCodeBlock("npx percy exec -- npx playwright test tests/visual.spec.js"),
         createBullet("Click vào đường link https://percy.io/... xuất hiện ở cuối Terminal để xem kết quả so sánh từng pixel và bấm nút Approve All (với bản đầu) hoặc xem vùng màu đỏ (Visual Diff).", "Bước 2.4 (Duyệt kết quả Percy):"),
 
         createHeading2("3. Lệnh chạy 27 Test Case chức năng (Playwright)"),
-        createParagraph("Chạy nhanh 27 test case logic trên terminal:"),
-        createCodeBlock("cmd /c npx playwright test tests/datetime-checker.spec.js"),
+        createParagraph("Chạy nhanh 27 test case logic trên cmd 2:"),
+        createCodeBlock("npx playwright test tests/datetime-checker.spec.js"),
         createParagraph("Chạy với giao diện Playwright UI trực quan (xem robot gõ phím và click nút):"),
-        createCodeBlock("cmd /c npx playwright test tests/datetime-checker.spec.js --ui"),
+        createCodeBlock("npx playwright test tests/datetime-checker.spec.js --ui"),
         createParagraph("Xem trang báo cáo HTML chi tiết sau khi chạy xong:"),
-        createCodeBlock("cmd /c npx playwright show-report"),
+        createCodeBlock("npx playwright show-report"),
 
         // =========================================================================
         // PHẦN III
@@ -388,7 +388,7 @@ async function generateDocx() {
         ),
 
         createHeading2("SPEAKER 3: LIVE DEMO KIỂM THỬ CHỨC NĂNG (2:30 - 4:00)"),
-        createBullet("Mở Terminal gõ: cmd /c npx playwright test tests/datetime-checker.spec.js --ui -> Bấm Run -> Zoom màn hình tự điền -> Mở show-report.", "Thao tác trên video:"),
+        createBullet("Mở cmd gõ: npx playwright test tests/datetime-checker.spec.js --ui -> Bấm Run -> Zoom màn hình tự điền -> Mở show-report.", "Thao tác trên video:"),
         createQuoteBox(
           '\"Chào các bạn, mình là Speaker 3! Mình sẽ trực tiếp demo quá trình Playwright chạy tự động.\n\n' +
           'Thay vì chạy dòng lệnh nhàm chán, mình sẽ bật chế độ Playwright UI Mode bằng lệnh --ui.\n\n' +
@@ -401,7 +401,7 @@ async function generateDocx() {
         ),
 
         createHeading2("SPEAKER 4: LIVE DEMO VISUAL TESTING VỚI PERCY (4:00 - 5:30)"),
-        createBullet("Nạp token và chạy lệnh: cmd /c npx percy exec -- npx playwright test tests/visual.spec.js -> Mở link Percy Dashboard -> So sánh ảnh pixel-by-pixel.", "Thao tác trên video:"),
+        createBullet("Nạp token và chạy lệnh: npx percy exec -- npx playwright test tests/visual.spec.js -> Mở link Percy Dashboard -> So sánh ảnh pixel-by-pixel.", "Thao tác trên video:"),
         createQuoteBox(
           '\"Hi mọi người, mình là Speaker 4! Bây giờ chúng ta sẽ đến với \\\'vũ khí bí mật\\\' mang tên Percy.\n\n' +
           'Bình thường, nếu ai đó lỡ tay sửa CSS làm tiêu đề bị lệch hay chữ bị đổi màu, test chức năng vẫn sẽ báo PASS vì chữ vẫn còn đó. Nhưng Percy thì không dễ bị qua mặt như vậy!\n\n' +
@@ -440,18 +440,18 @@ async function generateDocx() {
           [
             [
               "[percy] Error: Missing PERCY_TOKEN",
-              "Chưa nạp token vào Terminal hoặc đã mở cửa sổ Terminal mới.",
-              "Gõ lại lệnh gán: $env:PERCY_TOKEN = 'token_cua_ban' trước khi chạy percy exec."
+              "Đóng cửa sổ cmd hoặc mở cửa sổ cmd mới nên bị mất biến môi trường.",
+              "Gõ lại lệnh gán: set PERCY_TOKEN=token_cua_ban trước khi chạy percy exec."
             ],
             [
               "net::ERR_CONNECTION_REFUSED at http://localhost:3000",
-              "Chưa bật Web Server phục vụ file index.html.",
-              "Mở 1 terminal riêng và chạy lệnh: cmd /c npx serve -l 3000."
+              "Chưa bật Web Server phục vụ file index.html hoặc đã tắt cmd 1.",
+              "Mở 1 cmd riêng và chạy lệnh: npx serve -l 3000 (giữ nguyên không tắt)."
             ],
             [
-              "File ... cannot be loaded because running scripts is disabled",
-              "Chính sách bảo mật PowerShell của Windows chặn chạy file .ps1.",
-              "Luôn thêm tiền tố 'cmd /c ' vào đầu câu lệnh (ví dụ: cmd /c npx ...)."
+              "Heads up! It looks like @percy/cli is not installed!",
+              "Bạn đang đứng ở thư mục gốc SWT301_Project thay vì WebApp.",
+              "Gõ lệnh: cd d:\\SWT301_Project\\WebApp rồi mới chạy lệnh test."
             ]
           ]
         )
@@ -460,7 +460,7 @@ async function generateDocx() {
   });
 
   const buffer = await Packer.toBuffer(doc);
-  const outputPath = path.resolve(__dirname, '../Huong_Dan_Toan_Dien_SWT301_Team.docx');
+  const outputPath = path.resolve(__dirname, '../HUONG_DAN_KIEM_THU_SWT301.docx');
   fs.writeFileSync(outputPath, buffer);
   console.log('Document successfully created at:', outputPath);
 }
