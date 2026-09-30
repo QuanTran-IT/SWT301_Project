@@ -21,42 +21,36 @@
    *(Mã token của bạn có dạng: `web_d4667fd4923f35149ce947936d9946b...`)*
 
 ### 2. Chuẩn bị môi trường trên máy tính
-Mở **Terminal (VS Code)** tại thư mục `WebApp`:
-```powershell
+Mở **Command Prompt (cmd)** tại thư mục `WebApp`:
+```cmd
 cd d:\SWT301_Project\WebApp
 npm install
-cmd /c npx playwright install
+npx playwright install
 ```
 
 ---
 
 ## III. PHẦN 2: QUY TRÌNH CHẠY KIỂM THỬ CHI TIẾT
 
-> **Quy tắc 2 Cửa Sổ Terminal:**
-> - **Terminal 1:** Luôn dùng để bật máy chủ web tĩnh (Port 3000).
-> - **Terminal 2:** Dùng để gõ lệnh chạy các bài test.
+> **Quy tắc 2 Cửa Sổ cmd:**
+> - **cmd 1:** Luôn dùng để bật máy chủ web tĩnh (Port 3000).
+> - **cmd 2:** Dùng để gõ lệnh chạy các bài test.
 
 ---
 
-### Bước 1: Khởi động Web Server (Terminal 1)
-Mở cửa sổ **Terminal 1** tại thư mục `WebApp`:
-```powershell
+### Bước 1: Khởi động Web Server (cmd 1)
+Mở cửa sổ **cmd 1** tại thư mục `WebApp`:
+```cmd
 cd d:\SWT301_Project\WebApp
-cmd /c npx serve -l 3000
+npx serve -l 3000
 ```
 > *Giữ nguyên cửa sổ này luôn mở trong suốt quá trình chạy test.*
 
 ---
 
-### Bước 2: Nạp Token Percy (Terminal 2)
-Mở thêm **Terminal 2** tại thư mục `WebApp`. Chạy lệnh sau để gán biến môi trường:
+### Bước 2: Nạp Token Percy (cmd 2)
+Mở thêm **cmd 2** tại thư mục `WebApp`. Chạy lệnh sau để gán biến môi trường:
 
-* **Đối với PowerShell (Mặc định trong VS Code):**
-```powershell
-$env:PERCY_TOKEN = "web_d4667fd4923f35149ce947936d9946b052002135feb6f9640a6f24a32e1dce3d"
-```
-
-* **Đối với Command Prompt (cmd):**
 ```cmd
 set PERCY_TOKEN=web_d4667fd4923f35149ce947936d9946b052002135feb6f9640a6f24a32e1dce3d
 ```
@@ -66,9 +60,9 @@ set PERCY_TOKEN=web_d4667fd4923f35149ce947936d9946b052002135feb6f9640a6f24a32e1d
 ### Bước 3: Chạy Kiểm Thử Hồi Quy Giao Diện (Visual Regression)
 
 #### Trường hợp A: Chạy test và đẩy ảnh lên Percy Cloud
-Tại **Terminal 2**, chạy lệnh:
-```powershell
-cmd /c npx percy exec -- npx playwright test tests/visual.spec.js
+Tại **cmd 2**, chạy lệnh:
+```cmd
+npx percy exec -- npx playwright test tests/visual.spec.js
 ```
 * Playwright mở trình duyệt, chụp ảnh 3 trạng thái (Form mặc định, Nhập ngày đúng, Nhập ngày sai).
 * Percy gom ảnh và đẩy lên đám mây, sau đó in ra link kết quả:
@@ -77,29 +71,29 @@ cmd /c npx percy exec -- npx playwright test tests/visual.spec.js
 
 #### Trường hợp B: Kiểm tra nhanh giao diện cục bộ (Local Playwright)
 Nếu chỉ muốn máy tự so sánh pixel với ảnh baseline offline:
-```powershell
-cmd /c npx playwright test tests/visual.spec.js
+```cmd
+npx playwright test tests/visual.spec.js
 ```
 * Nếu có bất kỳ điểm nào xô lệch so với ảnh gốc, test sẽ báo `FAILED` và sinh ra ảnh so sánh `diff.png` chỉ ra đúng chỗ bị lệch.
 
 #### Trường hợp C: Cập nhật lại ảnh gốc mốc (Update Baseline)
 > **Chỉ chạy lệnh này khi bạn CHỦ ĐỘNG thay đổi giao diện** và muốn lưu giao diện mới này làm mốc chuẩn cho các lần test tiếp theo:
-```powershell
-cmd /c npx playwright test tests/visual.spec.js --update-snapshots
+```cmd
+npx playwright test tests/visual.spec.js --update-snapshots
 ```
 
 ---
 
 ### Bước 4: Chạy Kiểm Thử Chức Năng (Bộ 27 Test Cases Logic)
 
-Tại **Terminal 2**, chạy lệnh kiểm tra logic nghiệp vụ (không cần token Percy):
-```powershell
-cmd /c npx playwright test tests/datetime-checker.spec.js
+Tại **cmd 2**, chạy lệnh kiểm tra logic nghiệp vụ (không cần token Percy):
+```cmd
+npx playwright test tests/datetime-checker.spec.js
 ```
 
 * Hoặc mở chế độ giao diện đồ họa trực quan (Playwright UI Mode) để xem robot tự động gõ phím:
-```powershell
-cmd /c npx playwright test tests/datetime-checker.spec.js --ui
+```cmd
+npx playwright test tests/datetime-checker.spec.js --ui
 ```
 
 ---
@@ -142,8 +136,7 @@ cmd /c npx playwright test tests/datetime-checker.spec.js --ui
 
 | Lỗi gặp phải | Nguyên nhân | Cách khắc phục |
 | :--- | :--- | :--- |
-| **`[percy] Error: Missing Percy token`** | Dùng nhầm lệnh `set` trong PowerShell, hoặc mở cửa sổ Terminal mới nên bị mất biến môi trường. | Chạy lại lệnh PowerShell: <br>`$env:PERCY_TOKEN = "token_cua_ban"` ngay tại cửa sổ Terminal đang chạy test. |
-| **`net::ERR_CONNECTION_REFUSED at http://localhost:3000`** | Chưa bật máy chủ Web hoặc đã vô tình tắt Terminal 1. | Mở Terminal 1 riêng biệt và chạy: <br>`cmd /c npx serve -l 3000` (giữ nguyên không tắt). |
-| **`Error: expect(page).toHaveScreenshot() failed (pixels are different)`** | Giao diện web đã có sự thay đổi (CSS/HTML) so với ảnh gốc mốc. | - Nếu là **lỗi ngoài ý muốn**: Sửa lại CSS.<br>- Nếu là **chủ ý thay đổi UI**: Chạy lệnh `cmd /c npx playwright test tests/visual.spec.js --update-snapshots` để lưu mốc mới. |
-| **`File ... cannot be loaded because running scripts is disabled`** | Chính sách bảo mật của PowerShell Windows chặn chạy file `.ps1`. | Thêm tiền tố `cmd /c ` vào trước lệnh: <br>Ví dụ: `cmd /c npx percy exec ...` |
+| **`[percy] Error: Missing Percy token`** | Đóng cửa sổ cmd hoặc mở cửa sổ mới nên bị mất biến môi trường. | Chạy lại lệnh: <br>`set PERCY_TOKEN=web_d4667fd49...` ngay tại cửa sổ cmd đang chạy test (hoặc gộp chung lệnh: `set PERCY_TOKEN=... && npx percy exec ...`). |
+| **`net::ERR_CONNECTION_REFUSED at http://localhost:3000`** | Chưa bật máy chủ Web hoặc đã vô tình tắt cmd 1. | Mở cmd 1 riêng biệt và chạy: <br>`npx serve -l 3000` (giữ nguyên không tắt). |
+| **`Error: expect(page).toHaveScreenshot() failed (pixels are different)`** | Giao diện web đã có sự thay đổi (CSS/HTML) so với ảnh gốc mốc. | - Nếu là **lỗi ngoài ý muốn**: Sửa lại CSS.<br>- Nếu là **chủ ý thay đổi UI**: Chạy lệnh `npx playwright test tests/visual.spec.js --update-snapshots` để lưu mốc mới. |
 | **`Heads up! It looks like @percy/cli is not installed!`** | Bạn đang đứng ở thư mục gốc `SWT301_Project` thay vì `WebApp`. | Gõ lệnh: `cd d:\SWT301_Project\WebApp` rồi mới chạy lệnh test. |
